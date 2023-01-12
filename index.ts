@@ -31,18 +31,22 @@ app.use(
     graphqlPath,
     (req: Request, res: Response) =>
     {
+        const context = {
+            kauth: new KeycloakContext({ req: req as any }),
+            req: req,
+            res: res
+        };
        return graphqlHTTP({
             schema: schema,
             rootValue: resolver,
             graphiql: true,
-        //     context: (req: any, res: any) => {
+        //     context: (req:Request, res: Response) => {
         //         return {
         //             kauth: new KeycloakContext({ req: req as any }),
                     
         //         }
-        //    },
-           context : {req ,res}
-         
+        //    }
+            context:context
         })(req,res)
     }
 )
